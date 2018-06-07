@@ -7,7 +7,7 @@ import Preview from './App/Preview'
 import Search from './App/Search'
 import UpdatePerson from './App/UpdatePerson'
 import UpdateCompany from './App/UpdateCompany'
-import { Router, Link } from '@reach/router'
+import { Router, navigate } from '@reach/router'
 import 'antd/lib/menu/style'
 import 'antd/lib/layout/style'
 import 'antd/lib/icon/style'
@@ -20,6 +20,9 @@ class App extends Component {
     this.state = {
     }
   }
+  onClickMenu (item) {
+    navigate(item.key)
+  }
   render () {
     return (
       <div className='App'>
@@ -29,7 +32,7 @@ class App extends Component {
             collapsedWidth='0'
             onCollapse={(collapsed, type) => { console.log(collapsed, type) }}
           >
-            <Menu theme='dark' mode='inline'>
+            <Menu onClick={this.onClickMenu} theme='dark' mode='inline' defaultSelectedKeys={['search']}>
               <Item key='search'>
                 <Icon type='search' />
                 <span>快速查询</span>

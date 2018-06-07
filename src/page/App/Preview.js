@@ -1,18 +1,21 @@
-import React, { Component } from 'react'
+import React from 'react'
+import triLayout from './common/triLayout'
+import PreTable from './Preview/PreTable'
 import './Preview.css'
-class Preview extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-    }
-  }
-  render () {
-    return (
-      <div className='Preview'>
-        placeholder
-      </div>
-    )
-  }
+import 'antd/lib/button/style'
+
+const InformationForm = (props) => {
+  return (
+    <div className='informationForm'>
+      <p>钱包hash: 1123</p>
+      <p>姓名: </p>
+      <p>身份证: </p>
+      <PreTable />
+    </div>
+  )
 }
+
+const Ava = () => <img alt='avatar' />
+const Preview = triLayout(InformationForm, Ava)
 
 export default Preview
