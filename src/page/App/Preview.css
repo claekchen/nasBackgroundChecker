@@ -6,3 +6,16 @@ table {
   line-height: 32px;
   font-size: 14px;
 }
+
+.pretable-contianer {
+  margin-top: -150px;
+}
+
+.avatar-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.ant-calendar-picker-icon{
+  top:40%;
+}

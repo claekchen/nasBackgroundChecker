@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: row;
   width: 70%;
+  margin-top: 15px;
 }
 
 .inputset > p {
@@ -9,5 +10,6 @@
   margin-right: 15px;
   line-height: 32px;
   font-size: 14px;
-  text-align: left
+  text-align: left;
+  margin-bottom: 0px;
 }
