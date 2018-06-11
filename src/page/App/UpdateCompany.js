@@ -49,8 +49,39 @@ const mapDispatchToProps = (dispatch) => {
 }
 const InformationFormContainer = connect(mapStateToProps, mapDispatchToProps)(InformationForm)
 
-const Ava = () => <div className='avatar-container'><Avatar text='证明文件' /></div>
-const ConfirmButton = (props) => <Button type='primary' size='large'>注册/更新</Button>
-const UpdateCompany = triLayout(InformationFormContainer, Ava, ConfirmButton)
+const Ava = (props) => <div className='avatar-container'><Avatar ava={props.ava} onChange={props.handleChange} text='头像' /></div>
+
+Ava.propTypes = {
+  ava: PropTypes.string,
+  handleChange: PropTypes.func
+}
+
+const mapStateToPropsAva = state => {
+  return {
+    ava: state.company.ava
+  }
+}
+const mapDispatchToPropsAva = (dispatch) => {
+  return {
+    handleChange: info => dispatch(companyAction.changeCompanyInfoAction(info))
+  }
+}
+const AvaContainer = connect(mapStateToPropsAva, mapDispatchToPropsAva)(Ava)
+
+const ConfirmButton = (props) => <Button onClick={props.handleClick} type='primary' size='large'>注册/更新</Button>
+ConfirmButton.propTypes = {
+  handleClick: PropTypes.func
+}
+const mapStateToPropsButton = () => {
+  return {}
+}
+const mapDispatchToPropsButton = (dispatch) => {
+  return {
+    handleClick: info => dispatch(companyAction.updateCompanyInfoAction())
+  }
+}
+const ConfirmButtonContainer = connect(mapStateToPropsButton, mapDispatchToPropsButton)(ConfirmButton)
+
+const UpdateCompany = triLayout(InformationFormContainer, AvaContainer, ConfirmButtonContainer)
 
 export default UpdateCompany

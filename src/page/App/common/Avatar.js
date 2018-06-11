@@ -33,19 +33,27 @@ class Avatar extends Component {
     }
   }
   handleChange (info) {
+    const {onChange} = this.props
     if (info.file.status === 'uploading') {
       this.setState({ loading: true })
       return
     }
     if (info.file.status === 'done') {
       // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl => this.setState({
-        imageUrl,
-        loading: false
-      }))
+      getBase64(info.file.originFileObj, imageUrl => {
+        this.setState({
+          loading: false
+        })
+        const info = {
+          ava: imageUrl
+        }
+        onChange(info)
+      }
+    )
     }
   }
   render () {
+    const {ava} = this.props
     const uploadButton = (
       <div>
         <Icon type={this.state.loading ? 'loading' : 'plus'} />
@@ -63,14 +71,16 @@ class Avatar extends Component {
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
       >
-        {imageUrl ? <img src={imageUrl} alt='avatar' /> : uploadButton}
+        {imageUrl ? <img src={ava} alt='avatar' /> : uploadButton}
       </Upload>
     )
   }
 }
 
 Avatar.propTypes = {
-  text: PropTypes.string
+  text: PropTypes.string,
+  ava: PropTypes.string,
+  onChange: PropTypes.func
 }
 
 export default Avatar

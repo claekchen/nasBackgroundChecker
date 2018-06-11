@@ -10,13 +10,16 @@ import './Preview.css'
 import 'antd/lib/button/style'
 
 const InformationForm = (props) => {
+  const onSwitch = () => {
+    props.handleSwitchCompanyInfo(!props.showCompanyInfo)
+  }
   return (
     <div className='informationForm'>
-      <AddCompany visible={false} />
+      <AddCompany />
       <p>钱包hash: {props.token}</p>
       <p>姓名: {props.name}</p>
       <p>身份证: {props.id}</p>
-      <Button type='primary'>添加工作经历</Button>
+      <Button onClick={onSwitch} type='primary'>添加工作经历</Button>
     </div>
   )
 }
@@ -24,17 +27,22 @@ const InformationForm = (props) => {
 InformationForm.propTypes = {
   token: PropTypes.string,
   name: PropTypes.string,
-  id: PropTypes.string
+  id: PropTypes.string,
+  showCompanyInfo: PropTypes.bool,
+  handleSwitchCompanyInfo: PropTypes.func,
+  handleChange: PropTypes.func
 }
 const mapStateToProps = state => {
   return {
     token: state.person.token,
     name: state.person.name,
-    id: state.person.id
+    id: state.person.id,
+    showCompanyInfo: state.person.showCompanyInfo
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
+    handleSwitchCompanyInfo: showCompanyInfo => dispatch(personAction.switchCompanyInfoAction(showCompanyInfo))
   }
 }
 
@@ -47,7 +55,18 @@ const PreTableContainer = (props) => {
     </div>
   )
 }
-const Ava = () => <div className='avatar-container'><img alt='avatar' /></div>
-const Preview = triLayout(InformationFormContainer, Ava, PreTableContainer)
+const Ava = (props) => <div className='avatar-container'><img alt={props.ava} /></div>
+Ava.propTypes = {
+  ava: PropTypes.string,
+  handleChange: PropTypes.func
+}
+const mapStateToPropsAva = state => {
+  return {
+    ava: state.person.ava
+  }
+}
+const AvaContainer = connect(mapStateToPropsAva)(Ava)
+
+const Preview = triLayout(InformationFormContainer, AvaContainer, PreTableContainer)
 
 export default Preview

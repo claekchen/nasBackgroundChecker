@@ -12,3 +12,16 @@ export const updatePersonInfoAction = () => {
     type: types.CHANGE_PERSON_INFO
   }
 }
+
+export const switchCompanyInfoAction = (showCompanyInfo) => {
+  return {
+    type: types.SWITCH_COMPANYINFO,
+    showCompanyInfo
+  }
+}
+
+export const updateCompany = () => {
+  return {
+    type: types.UPDATE_COMPANY
+  }
+}

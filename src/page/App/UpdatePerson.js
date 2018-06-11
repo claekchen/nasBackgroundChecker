@@ -35,22 +35,53 @@ InformationForm.propTypes = {
   id: PropTypes.string,
   handleChange: PropTypes.func
 }
-const mapStateToProps = state => {
+const mapStateToPropsInfo = state => {
   return {
     token: state.person.token,
     name: state.person.name,
     id: state.person.id
   }
 }
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToPropsInfo = (dispatch) => {
   return {
     handleChange: info => dispatch(personAction.changePersonInfoAction(info))
   }
 }
-const InformationFormContainer = connect(mapStateToProps, mapDispatchToProps)(InformationForm)
+const InformationFormContainer = connect(mapStateToPropsInfo, mapDispatchToPropsInfo)(InformationForm)
 
-const Ava = () => <div className='avatar-container'><Avatar text='头像' /></div>
-const ConfirmButton = (props) => <Button type='primary' size='large'>注册/更新</Button>
-const UpdatePerson = triLayout(InformationFormContainer, Ava, ConfirmButton)
+const Ava = (props) => <div className='avatar-container'><Avatar ava={props.ava} onChange={props.handleChange} text='头像' /></div>
+
+Ava.propTypes = {
+  ava: PropTypes.string,
+  handleChange: PropTypes.func
+}
+
+const mapStateToPropsAva = state => {
+  return {
+    ava: state.person.ava
+  }
+}
+const mapDispatchToPropsAva = (dispatch) => {
+  return {
+    handleChange: info => dispatch(personAction.changePersonInfoAction(info))
+  }
+}
+const AvaContainer = connect(mapStateToPropsAva, mapDispatchToPropsAva)(Ava)
+
+const ConfirmButton = (props) => <Button onClick={props.handleClick} type='primary' size='large'>注册/更新</Button>
+ConfirmButton.propTypes = {
+  handleClick: PropTypes.func
+}
+const mapStateToPropsButton = () => {
+  return {}
+}
+const mapDispatchToPropsButton = (dispatch) => {
+  return {
+    handleClick: info => dispatch(personAction.updatePersonInfoAction())
+  }
+}
+const ConfirmButtonContainer = connect(mapStateToPropsButton, mapDispatchToPropsButton)(ConfirmButton)
+
+const UpdatePerson = triLayout(InformationFormContainer, AvaContainer, ConfirmButtonContainer)
 
 export default UpdatePerson
