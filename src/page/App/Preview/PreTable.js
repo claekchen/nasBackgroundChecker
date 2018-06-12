@@ -1,18 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import Table from 'antd/lib/table'
 import './PreTable.css'
 import 'antd/lib/table/style'
-
-const mock = [
-  {
-    name: '中国平安中国平安中国平安中国平安',
-    title: '销售经理',
-    action: '入职',
-    date: '2000.01',
-    isVeri: '已认证',
-    key: '1'
-  }
-]
 
 const columns = [{
   title: '公司',
@@ -42,10 +33,18 @@ class PreTable extends Component {
     }
   }
   render () {
+    const {companyInfo} = this.props
     return (
-      <Table columns={columns} dataSource={mock} />
+      <Table columns={columns} dataSource={companyInfo} />
     )
   }
 }
-
-export default PreTable
+PreTable.propTypes = {
+  companyInfo: PropTypes.array
+}
+const mapStateToPropsInfo = state => {
+  return {
+    companyInfo: state.person.companyInfo
+  }
+}
+export default connect(mapStateToPropsInfo)(PreTable)

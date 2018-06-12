@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import * as companyAction from '../action/company'
 import Table from 'antd/lib/table'
 import Button from 'antd/lib/button'
 import Divider from 'antd/lib/divider'
@@ -6,17 +9,37 @@ import './Audit.css'
 import 'antd/lib/table/style'
 import 'antd/lib/button/style'
 import 'antd/lib/divider/style'
-
-const mock = [
-  {
-    name: '王大爷',
-    id: '100000000000000000',
-    title: '销售经理',
-    action: '入职',
-    date: '2000.01',
-    key: '1'
+const AuditButtonGroup = (props) => {
+  const onApprove = () => {
+    console.log(123)
+    props.handleApprove('12')
   }
-]
+  const onReject = () => {
+    props.handleReject('12')
+  }
+  return (
+    <div>
+      <Button onClick={onApprove} type='primary'>通过</Button>
+      <Divider type='vertical' />
+      <Button onClick={onReject} type='danger'>驳回</Button>
+    </div>
+  )
+}
+AuditButtonGroup.propTypes = {
+  handleApprove: PropTypes.func,
+  handleReject: PropTypes.func
+}
+const mapStateToPropsButton = state => {
+  return {
+  }
+}
+const mapDispatchToPropsButton = (dispatch) => {
+  return {
+    handleApprove: (token) => dispatch(companyAction.approvePersonAction(token)),
+    handleReject: (token) => dispatch(companyAction.rejectPersonAction(token))
+  }
+}
+const AuditButtonContainer = connect(mapStateToPropsButton, mapDispatchToPropsButton)(AuditButtonGroup)
 
 const columns = [{
   title: '姓名',
@@ -41,13 +64,7 @@ const columns = [{
 }, {
   title: '审核',
   key: 'audit',
-  render: (text, record) => (
-    <div>
-      <Button type='primary'>通过</Button>
-      <Divider type='vertical' />
-      <Button type='danger'>驳回</Button>
-    </div>
-  )
+  render: () => <AuditButtonContainer />
 }]
 class Audit extends Component {
   constructor (props) {
@@ -56,12 +73,22 @@ class Audit extends Component {
     }
   }
   render () {
+    const {personInfo} = this.props
     return (
       <div className='Audit'>
-        <Table columns={columns} dataSource={mock} />
+        <Table columns={columns} dataSource={personInfo} />
       </div>
     )
   }
 }
 
-export default Audit
+Audit.propTypes = {
+  personInfo: PropTypes.array
+}
+const mapStateToProps = state => {
+  return {
+    personInfo: state.company.personInfo
+  }
+}
+
+export default connect(mapStateToProps)(Audit)
