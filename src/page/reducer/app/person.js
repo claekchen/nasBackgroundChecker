@@ -5,7 +5,7 @@ const initialState = {
   token: '123',
   name: '222',
   id: '333',
-  ava: '444',
+  ava: '',
   showCompanyInfo: false,
   companyList: ['中国平安'],
   addingCompany: '',

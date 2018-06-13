@@ -14,7 +14,6 @@ import './AddCompany.css'
 import 'antd/lib/button/style'
 import 'antd/lib/modal/style'
 import 'antd/lib/select/style'
-import moment from 'moment'
 const monthFormat = 'YYYY/MM'
 const Option = Select.Option
 const { MonthPicker } = DatePicker
@@ -46,7 +45,7 @@ const AddCompany = (props) => {
   const renderCompany = (data) => {
     let res = []
     data.map(item => {
-      res.push(<Option value={item}>{item}</Option>)
+      res.push(<Option key={item} value={item}>{item}</Option>)
     })
     return res
   }
@@ -87,11 +86,11 @@ AddCompany.propTypes = {
   onOK: PropTypes.func,
   handleSwitchCompanyInfo: PropTypes.func,
   onUpdate: PropTypes.func,
-  companyList: PropTypes.string,
+  companyList: PropTypes.array,
   addingCompany: PropTypes.string,
   addingLocation: PropTypes.string,
   addingAction: PropTypes.string,
-  addingDate: PropTypes.string
+  addingDate: PropTypes.object
 }
 
 const mapStateToProps = state => {

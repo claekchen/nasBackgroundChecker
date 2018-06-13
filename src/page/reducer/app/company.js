@@ -5,7 +5,7 @@ const initialState = {
   token: '123',
   name: '中国平安',
   location: '333',
-  ava: '444',
+  ava: '',
   personInfo: [
     {
       name: '王小明',

@@ -24,22 +24,42 @@ class SmartContractApi {
   }
 }
 
-class AnouncementContractApi extends SmartContractApi {
-  add (name, text, cb) {
+class BackgroundContractApi extends SmartContractApi {
+  updatePerson (personInfo, cb) {
     this._call({
-      callArgs: `["${name}", "${text}", ${Date.now()}]`,
-      callFunction: 'add',
+      callArgs: `[${personInfo}]`,
+      callFunction: 'updatePerson',
       listener: cb
     })
   }
-
-  getByName (name, cb) {
+  updateCompany (companyInfo, cb) {
+    this._call({
+      callArgs: `[${companyInfo}]`,
+      callFunction: 'updateCompany',
+      listener: cb
+    })
+  }
+  addCompanyHistoryToPerson (token, companyHistory, cb) {
+    this._call({
+      callArgs: `["${token}", ${companyHistory}]`,
+      callFunction: 'addCompanyHistoryToPerson',
+      listener: cb
+    })
+  }
+  approveOrRejectHistory (tokenOfCompany, tokenOfPerson, result, cb) {
+    this._call({
+      callArgs: `["${tokenOfCompany}", "${tokenOfPerson}", ${result}]`,
+      callFunction: 'approveOrRejectHistory',
+      listener: cb
+    })
+  }
+  getByToken (token, cb) {
     this._simulateCall({
-      callArgs: `["${name}"]`,
-      callFunction: 'getByName',
+      callArgs: `["${token}"]`,
+      callFunction: 'getByToken',
       listener: cb
     })
   }
 }
 
-export default AnouncementContractApi
+export default BackgroundContractApi

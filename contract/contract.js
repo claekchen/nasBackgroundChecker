@@ -1,6 +1,7 @@
 'use strict'
 
-// TODO: change personInfo and companyInfo to Map from Array 
+// TODO: change personInfo and companyInfo to Map from Array
+
 class Person {
   constructor (text) {
     let obj = text ? JSON.parse(text) : {}
@@ -8,7 +9,7 @@ class Person {
     this.name = obj.name
     this.id = obj.id
     this.ava = obj.ava
-    this.companyInfo = obj.companyInfo ? obj.companyInfo : []
+    this.companyInfo = obj.companyInfo ? obj.companyInfo : new Map()
   }
 
   toString () {
@@ -38,7 +39,7 @@ class Company {
     this.name = obj.name
     this.location = obj.location
     this.ava = obj.ava
-    this.personInfo = []
+    this.personInfo = obj.personInfo ? obj.personInfo : new Map()
   }
 
   toString () {
@@ -123,9 +124,9 @@ class BackgroundContract {
       date: companyHistory.date
     }
     aWaiting = new PersonWaiting(aWaiting)
-    aPerson.companyInfo.push(aHistory)
+    aPerson.companyInfo.put(companyHistory.token, aHistory)
     this.person.set(token, aPerson)
-    aCompany.personInfo.push(aWaiting)
+    aCompany.personInfo.put(token, aWaiting)
     this.company.set(companyHistory.token, aCompany)
     return true
   }
@@ -133,6 +134,13 @@ class BackgroundContract {
   approveOrRejectHistory (tokenOfCompany, tokenOfPerson, result) {
     let aCompany = this.company.get(tokenOfCompany)
     let aPerson = this.person.get(tokenOfPerson)
+    let aCompanyHistory = aPerson.companyInfo.get(tokenOfCompany)
+    aCompany.personInfo.delete(tokenOfPerson)
+    this.company.set(tokenOfCompany, aCompany)
+    aCompanyHistory.isVeri = result
+    aPerson.companyInfo.set(tokenOfCompany, aCompanyHistory)
+    this.person.set(tokenOfPerson, aPerson)
+    return true
   }
   getByToken (token) {
     let aPerson = this.person.get(token)
