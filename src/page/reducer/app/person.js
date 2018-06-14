@@ -28,9 +28,6 @@ const person = (state = initialState, action) => {
   switch (action.type) {
     case types.CHANGE_PERSON_INFO:
       return Object.assign({}, state, action.info)
-    case types.UPDATE_PERSON_INFO:
-      window.alert(state)
-      return Object.assign({}, state)
     case types.SWITCH_COMPANYINFO:
       console.log(state)
       return Object.assign({}, state, {showCompanyInfo: action.showCompanyInfo})

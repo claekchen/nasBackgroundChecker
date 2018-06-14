@@ -68,16 +68,24 @@ const mapDispatchToPropsAva = (dispatch) => {
 }
 const AvaContainer = connect(mapStateToPropsAva, mapDispatchToPropsAva)(Ava)
 
-const ConfirmButton = (props) => <Button onClick={props.handleClick} type='primary' size='large'>注册/更新</Button>
-ConfirmButton.propTypes = {
-  handleClick: PropTypes.func
+const ConfirmButton = (props) => {
+  const onClick = () => {
+    props.handleClick(props.person)
+  }
+  return <Button onClick={onClick} type='primary' size='large'>注册/更新</Button>
 }
-const mapStateToPropsButton = () => {
-  return {}
+ConfirmButton.propTypes = {
+  handleClick: PropTypes.func,
+  person: PropTypes.object
+}
+const mapStateToPropsButton = (state) => {
+  return {
+    person: state.person
+  }
 }
 const mapDispatchToPropsButton = (dispatch) => {
   return {
-    handleClick: info => dispatch(personAction.updatePersonInfoAction())
+    handleClick: person => personAction.updatePersonInfoAction(person)
   }
 }
 const ConfirmButtonContainer = connect(mapStateToPropsButton, mapDispatchToPropsButton)(ConfirmButton)

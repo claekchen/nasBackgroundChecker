@@ -1,4 +1,4 @@
-const CONTRACT_ADDRESS = 'n1vHAAo7aSNuEYCTHYarZLAQpzX3JocX9nn'
+const CONTRACT_ADDRESS = 'n1kSoGHDDuJTwFW91nf8FiMMbQt1qt8oDfE'
 
 class SmartContractApi {
   constructor (contractAdress) {
@@ -25,23 +25,23 @@ class SmartContractApi {
 }
 
 class BackgroundContractApi extends SmartContractApi {
-  updatePerson (personInfo, cb) {
+  updatePerson (token, name, id, ava, cb) {
     this._call({
-      callArgs: `[${personInfo}]`,
+      callArgs: `["${token}", "${name}", "${id}", "${ava}"]`,
       callFunction: 'updatePerson',
       listener: cb
     })
   }
-  updateCompany (companyInfo, cb) {
+  updateCompany (token, name, location, ava, cb) {
     this._call({
-      callArgs: `[${companyInfo}]`,
+      callArgs: `["${token}", "${name}", "${location}", "${ava}"]`,
       callFunction: 'updateCompany',
       listener: cb
     })
   }
-  addCompanyHistoryToPerson (token, companyHistory, cb) {
+  addCompanyHistoryToPerson (token, tokenOfCompany, title, action, date, isVeri, cb) {
     this._call({
-      callArgs: `["${token}", ${companyHistory}]`,
+      callArgs: `["${token}", "${tokenOfCompany}", "${title}", "${action}", "${date}", "${isVeri}"]`,
       callFunction: 'addCompanyHistoryToPerson',
       listener: cb
     })

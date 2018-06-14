@@ -11,6 +11,7 @@ class Search extends Component {
   constructor (props) {
     super(props)
     this.onSearch = this.onSearch.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
     this.state = {
     }
   }
@@ -18,13 +19,17 @@ class Search extends Component {
     const {handleSearch} = this.props
     handleSearch(e.currentTarget.value)
   }
+  onSubmit () {
+    const {text, handleSubmit} = this.props
+    handleSubmit(text)
+  }
   render () {
-    const {text, onSubmit} = this.props
+    const {text} = this.props
     return (
       <div className='Search'>
         <h1>查询</h1>
         <Input value={text} onChange={this.onSearch} placeholder='请输入被查询人的钱包Hash' />
-        <Button onClick={onSubmit} className='confirm-button' type='primary' size='large'>确认</Button>
+        <Button onClick={this.onSubmit} className='confirm-button' type='primary' size='large'>确认</Button>
       </div>
     )
   }
@@ -33,7 +38,7 @@ class Search extends Component {
 Search.propTypes = {
   handleSearch: PropTypes.func,
   text: PropTypes.string,
-  onSubmit: PropTypes.func
+  handleSubmit: PropTypes.func
 }
 
 const mapStateToProps = state => {
@@ -44,7 +49,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
   return {
     handleSearch: text => dispatch(searchAction.changeSearchTextAction(text)),
-    onSubmit: () => dispatch(searchAction.submitSearch())
+    handleSubmit: text => searchAction.submitSearch(text)
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Search)

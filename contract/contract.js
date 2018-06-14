@@ -86,48 +86,72 @@ class BackgroundContract {
     this.companyList = []
     this.personList = []
   }
-
-  updatePerson (personInfo) {
-    let aPerson = new Person(personInfo)
-    if (!this.personList.includes(personInfo.token)) {
-      this.personList.push(personInfo.token)
-      this.person.put(personInfo.token, aPerson)
+  verify () {
+    const user_token = Blockchain.transaction.from
+    if (this.personList.includes(user_token)) {
+      return 'person'
+    } else if (this.companyList.includes(user_token)) {
+      return 'company'
     } else {
-      aPerson.companyInfo = this.person.get(personInfo.token).companyInfo
-      this.person.set(personInfo.token, aPerson)
+      return 'none'
+    }
+  }
+  updatePerson (token, name, id, ava) {
+    let aPerson = new Person()
+    aPerson.token = token
+    aPerson.name = name
+    aPerson.id = id
+    aPerson.ava = ava
+    if (!this.personList.includes(aPerson.token)) {
+      this.personList.push(aPerson.token)
+      aPerson.companyInfo = new Map()
+      this.person.put(aPerson.token, aPerson)
+    } else {
+      aPerson.companyInfo = this.person.get(aPerson.token).companyInfo
+      this.person.set(aPerson.token, aPerson)
     }
     return true
   }
 
-  updateCompany (companyInfo) {
-    let aCompany = new Person(companyInfo)
-    if (!this.companyList.includes(companyInfo.token)) {
-      this.companyList.push(companyInfo.token)
-      this.company.put(companyInfo.token, aCompany)
+  updateCompany (token, name, location, ava) {
+    let aCompany = new Person()
+    aCompany.token = token
+    aCompany.name = name
+    aCompany.location = location
+    aCompany.ava = ava
+    if (!this.companyList.includes(aCompany.token)) {
+      this.companyList.push(aCompany.token)
+      aCompany.personInfo = new Map()
+      this.company.put(aCompany.token, aCompany)
     } else {
-      aCompany.personInfo = this.company.get(companyInfo.token).personInfo
-      this.company.set(companyInfo.token, aCompany)
+      aCompany.personInfo = this.company.get(aCompany.token).personInfo
+      this.company.set(aCompany.token, aCompany)
     }
     return true
   }
 
-  addCompanyHistoryToPerson (token, companyHistory) {
+  addCompanyHistoryToPerson (token, tokenOfCompany, title, action, date, isVeri) {
     let aPerson = this.person.get(token)
-    let aHistory = new CompanyHistory(companyHistory)
-    let aCompany = this.company.get(companyHistory.token)
+    let aHistory = new CompanyHistory()
+    aHistory.token = tokenOfCompany
+    aHistory.title = title
+    aHistory.action = action
+    aHistory.date = date
+    aHistory.isVeri = isVeri
+    let aCompany = this.company.get(aHistory.token)
     let aWaiting = {
       token: token,
       name: aPerson.name,
       id: aPerson.id,
-      title: companyHistory.title,
-      action: companyHistory.action,
-      date: companyHistory.date
+      title: aHistory.title,
+      action: aHistory.action,
+      date: aHistory.date
     }
     aWaiting = new PersonWaiting(aWaiting)
-    aPerson.companyInfo.put(companyHistory.token, aHistory)
+    aPerson.companyInfo.put(aHistory.token, aHistory)
     this.person.set(token, aPerson)
     aCompany.personInfo.put(token, aWaiting)
-    this.company.set(companyHistory.token, aCompany)
+    this.company.set(aHistory.token, aCompany)
     return true
   }
 

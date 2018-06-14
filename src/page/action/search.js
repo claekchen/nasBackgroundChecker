@@ -1,5 +1,9 @@
 import * as types from '../constant/app-constant'
-
+import BackgroundContractApi from '../../ContractApi'
+let api = new BackgroundContractApi()
+const callbackFromEOS = (state) => {
+  console.log(state)
+}
 export const changeSearchTextAction = (text) => {
   return {
     type: types.CHANGE_SEARCH_TEXT,
@@ -7,8 +11,6 @@ export const changeSearchTextAction = (text) => {
   }
 }
 
-export const submitSearch = () => {
-  return {
-    type: types.SUBMIT_SEARCH
-  }
+export const submitSearch = (text) => {
+  api.getByToken(text, callbackFromEOS)
 }
