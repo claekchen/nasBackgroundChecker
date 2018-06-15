@@ -13,8 +13,17 @@ const initialState = {
       title: '销售经理',
       action: '入职',
       date: moment('2015/01', monthFormat).format(monthFormat),
-      token:'',
+      token:'333',
       key: '1'
+    },
+    {
+      name: '王2',
+      id: '100000000000000000',
+      title: '销售经理',
+      action: '入职',
+      date: moment('2015/01', monthFormat).format(monthFormat),
+      token:'222',
+      key: '2'
     }
   ]
 }
@@ -23,15 +32,6 @@ const company = (state = initialState, action) => {
   switch (action.type) {
     case types.CHANGE_COMPANY_INFO:
       return Object.assign({}, state, action.info)
-    case types.UPDATE_COMPANY_INFO:
-      window.alert(state)
-      return Object.assign({}, state)
-    case types.APPROVE_PERSON:
-      window.alert(state)
-      return Object.assign({}, state)
-    case types.REJECT_PERSON:
-      window.alert(state)
-      return Object.assign({}, state)
     default:
       return state
   }

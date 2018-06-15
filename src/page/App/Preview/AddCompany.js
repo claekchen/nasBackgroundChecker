@@ -44,17 +44,18 @@ const AddCompany = (props) => {
   }
   const renderCompany = (data) => {
     let res = []
-    data.map(item => {
-      res.push(<Option key={item} value={item}>{item}</Option>)
-    })
+    data.map(item => res.push(<Option key={item} value={item}>{item}</Option>))
     return res
+  }
+  const onUpdate = () => {
+    props.handleUpdate(props.state)
   }
   return (
     <Modal
       title='工作经历'
       visible={props.showCompanyInfo}
       footer={[
-        <Button type='primary' key='confirm' onClick={props.onUpdate}>确定</Button>,
+        <Button type='primary' key='confirm' onClick={onUpdate}>确定</Button>,
         <Button type='danger' key='cancel' onClick={onCancel}>
           取消
         </Button>
@@ -65,8 +66,8 @@ const AddCompany = (props) => {
           {renderCompany(props.companyList)}
         </Select>
       </InputSet>
-      <InputSet text='地点'>
-        <Input onChange={onChangeInfo} id='addingLocation' value={props.addingLocation} placeholder='请输入您的职位' />
+      <InputSet text='职位'>
+        <Input onChange={onChangeInfo} id='addingTitle' value={props.addingTitle} placeholder='请输入您的职位' />
       </InputSet>
       <InputSet text='行为'>
         <Select onChange={onChangeAction} defaultValue='in' style={{ width: '100%' }}>
@@ -85,20 +86,22 @@ AddCompany.propTypes = {
   showCompanyInfo: PropTypes.bool,
   onOK: PropTypes.func,
   handleSwitchCompanyInfo: PropTypes.func,
-  onUpdate: PropTypes.func,
+  handleUpdate: PropTypes.func,
   companyList: PropTypes.array,
   addingCompany: PropTypes.string,
-  addingLocation: PropTypes.string,
+  addingTitle: PropTypes.string,
   addingAction: PropTypes.string,
-  addingDate: PropTypes.object
+  addingDate: PropTypes.object,
+  state: PropTypes.object
 }
 
 const mapStateToProps = state => {
   return {
+    state: state,
     companyList: state.person.companyList,
     showCompanyInfo: state.person.showCompanyInfo,
     addingCompany: state.person.addingCompany,
-    addingLocation: state.person.addingLocation,
+    addingTitle: state.person.addingTitle,
     addingAction: state.person.addingAction,
     addingDate: state.person.addingDate
   }
@@ -107,7 +110,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleSwitchCompanyInfo: showCompanyInfo => dispatch(personAction.switchCompanyInfoAction(showCompanyInfo)),
     handleChange: info => dispatch(personAction.changePersonInfoAction(info)),
-    onUpdate: () => dispatch(personAction.updateCompany())
+    handleUpdate: (state) => personAction.updateCompany(state)
   }
 }
 

@@ -1,5 +1,6 @@
 import * as types from '../constant/app-constant'
-
+import BackgroundContractApi from '../../ContractApi'
+let api = new BackgroundContractApi()
 export const changeCompanyInfoAction = (info) => {
   return {
     type: types.CHANGE_COMPANY_INFO,
@@ -7,20 +8,17 @@ export const changeCompanyInfoAction = (info) => {
   }
 }
 
-export const updateCompanyInfoAction = () => {
-  return {
-    type: types.CHANGE_COMPANY_INFO
-  }
+export const updateCompanyInfoAction = (state) => {
+  const {token, name, location, ava} = state
+  api.updateCompany(token,name,location,ava);
 }
 
-export const approvePersonAction = (token) => {
-  return {
-    type: types.APPROVE_PERSON
-  }
+export const approvePersonAction = (state, tokenOfPerson) => {
+  const {token} = state
+= api.approveOrRejectHistory(token, tokenOfPerson, 1)
 }
 
-export const rejectPersonAction = (token) => {
-  return {
-    type: types.REJECT_PERSON
-  }
+export const rejectPersonAction = (state, tokenOfPerson) => {
+  const {token} = state
+  api.approveOrRejectHistory(token, tokenOfPerson, -1)
 }

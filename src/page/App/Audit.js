@@ -11,11 +11,10 @@ import 'antd/lib/button/style'
 import 'antd/lib/divider/style'
 const AuditButtonGroup = (props) => {
   const onApprove = () => {
-    console.log(123)
-    props.handleApprove('12')
+    props.handleApprove(props.state, props.token)
   }
   const onReject = () => {
-    props.handleReject('12')
+    props.handleReject(props.state)
   }
   return (
     <div>
@@ -27,16 +26,18 @@ const AuditButtonGroup = (props) => {
 }
 AuditButtonGroup.propTypes = {
   handleApprove: PropTypes.func,
-  handleReject: PropTypes.func
+  handleReject: PropTypes.func,
+  state: PropTypes.object
 }
 const mapStateToPropsButton = state => {
   return {
+    state
   }
 }
 const mapDispatchToPropsButton = (dispatch) => {
   return {
-    handleApprove: (token) => dispatch(companyAction.approvePersonAction(token)),
-    handleReject: (token) => dispatch(companyAction.rejectPersonAction(token))
+    handleApprove: (state, token) => companyAction.approvePersonAction(state, token),
+    handleReject: (state, token) => companyAction.rejectPersonAction(state, token)
   }
 }
 const AuditButtonContainer = connect(mapStateToPropsButton, mapDispatchToPropsButton)(AuditButtonGroup)
@@ -64,7 +65,7 @@ const columns = [{
 }, {
   title: '审核',
   key: 'audit',
-  render: () => <AuditButtonContainer />
+  render: (key) => {return <AuditButtonContainer token={key.token} />}
 }]
 class Audit extends Component {
   constructor (props) {

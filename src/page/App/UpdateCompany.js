@@ -49,7 +49,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 const InformationFormContainer = connect(mapStateToProps, mapDispatchToProps)(InformationForm)
 
-const Ava = (props) => <div className='avatar-container'><Avatar ava={props.ava} onChange={props.handleChange} text='头像' /></div>
+const Ava = (props) => <div className='avatar-container'><Avatar ava={props.ava} onChange={props.handleChange} text='证明' /></div>
 
 Ava.propTypes = {
   ava: PropTypes.string,
@@ -68,16 +68,25 @@ const mapDispatchToPropsAva = (dispatch) => {
 }
 const AvaContainer = connect(mapStateToPropsAva, mapDispatchToPropsAva)(Ava)
 
-const ConfirmButton = (props) => <Button onClick={props.handleClick} type='primary' size='large'>注册/更新</Button>
-ConfirmButton.propTypes = {
-  handleClick: PropTypes.func
+const ConfirmButton = (props) => {
+  const onClick = () => {
+    props.handleClick(props.state)
+  }
+
+  return <Button onClick={onClick} type='primary' size='large'>注册/更新</Button>
 }
-const mapStateToPropsButton = () => {
-  return {}
+ConfirmButton.propTypes = {
+  handleClick: PropTypes.func,
+  state: PropTypes.object
+}
+const mapStateToPropsButton = (state) => {
+  return {
+    state: state.company
+  }
 }
 const mapDispatchToPropsButton = (dispatch) => {
   return {
-    handleClick: info => dispatch(companyAction.updateCompanyInfoAction())
+    handleClick: state => companyAction.updateCompanyInfoAction(state)
   }
 }
 const ConfirmButtonContainer = connect(mapStateToPropsButton, mapDispatchToPropsButton)(ConfirmButton)

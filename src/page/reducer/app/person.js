@@ -9,7 +9,7 @@ const initialState = {
   showCompanyInfo: false,
   companyList: ['中国平安'],
   addingCompany: '',
-  addingLocation: '',
+  addingTitle: '',
   addingAction: '',
   addingDate: moment('2015/01', monthFormat),
   companyInfo: [
@@ -31,9 +31,6 @@ const person = (state = initialState, action) => {
     case types.SWITCH_COMPANYINFO:
       console.log(state)
       return Object.assign({}, state, {showCompanyInfo: action.showCompanyInfo})
-    case types.UPDATE_COMPANY:
-      window.alert(state)
-      return Object.assign({}, state)
     default:
       return state
   }

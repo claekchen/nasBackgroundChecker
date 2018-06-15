@@ -55,7 +55,7 @@ const PreTableContainer = (props) => {
     </div>
   )
 }
-const Ava = (props) => <div className='avatar-container'><img width={102} height={102} src={props.ava} /></div>
+const Ava = (props) => <div className='avatar-container'><img alt='头像' width={102} height={102} src={props.ava} /></div>
 Ava.propTypes = {
   ava: PropTypes.string,
   handleChange: PropTypes.func

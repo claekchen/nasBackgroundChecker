@@ -23,8 +23,9 @@ export const switchCompanyInfoAction = (showCompanyInfo) => {
   }
 }
 
-export const updateCompany = () => {
-  return {
-    type: types.UPDATE_COMPANY
-  }
+export const updateCompany = (state) => {
+  const {token, addingCompany, addingTitle, addingAction, addingDate} = state
+  let tokenOfCompany = '123'
+  console.log('wait company')
+  //  api.addCompanyHistoryToPerson(token, tokenOfCompany, addingTitle, addingAction, addingDate, 0)
 }
