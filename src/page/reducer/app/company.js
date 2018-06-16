@@ -2,9 +2,9 @@ import * as types from '../../constant/app-constant'
 import moment from 'moment'
 const monthFormat = 'YYYY/MM'
 const initialState = {
-  token: '123',
-  name: '中国平安',
-  location: '333',
+  token: '',
+  name: '',
+  location: '',
   ava: '',
   personInfo: [
     {

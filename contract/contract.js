@@ -21,6 +21,7 @@ class CompanyHistory {
   constructor (text) {
     let obj = text ? JSON.parse(text) : {}
     this.token = obj.token
+    this.name = obj.name
     this.title = obj.title
     this.action = obj.action
     this.date = obj.date
@@ -64,6 +65,7 @@ class PersonWaiting {
 class BackgroundContract {
   constructor () {
     LocalContractStorage.defineProperty(this, 'companyList')
+    LocalContractStorage.defineMapProperty(this, 'companyNameMap')
     LocalContractStorage.defineProperty(this, 'personList')
     LocalContractStorage.defineMapProperty(this, 'company', {
       parse: function (companyInfo) {
@@ -88,13 +90,17 @@ class BackgroundContract {
   }
   verify () {
     const user_token = Blockchain.transaction.from
+    const res = {}
+    res.token = user_token
     if (this.personList.includes(user_token)) {
-      return 'person'
+      res.type = 'person'
     } else if (this.companyList.includes(user_token)) {
-      return 'company'
+      res.type = 'company'
     } else {
-      return 'none'
+      res.type = 'none'
     }
+    res.list = this.personList
+    return res
   }
   updatePerson (token, name, id, ava) {
     let aPerson = new Person()
@@ -103,7 +109,9 @@ class BackgroundContract {
     aPerson.id = id
     aPerson.ava = ava
     if (!this.personList.includes(aPerson.token)) {
-      this.personList.push(aPerson.token)
+      let aList = this.personList
+      aList.push(aPerson.token)
+      this.personList = aList
       aPerson.companyInfo = new Map()
       this.person.put(aPerson.token, aPerson)
     } else {
@@ -120,7 +128,10 @@ class BackgroundContract {
     aCompany.location = location
     aCompany.ava = ava
     if (!this.companyList.includes(aCompany.token)) {
-      this.companyList.push(aCompany.token)
+      let aList = this.companyList
+      aList.push(aCompany.token)
+      this.companyList = aList
+      this.companyNameMap.set(aCompany.token, name)
       aCompany.personInfo = new Map()
       this.company.put(aCompany.token, aCompany)
     } else {
@@ -134,6 +145,7 @@ class BackgroundContract {
     let aPerson = this.person.get(token)
     let aHistory = new CompanyHistory()
     aHistory.token = tokenOfCompany
+    aHistory.name = this.companyNameMap.get(tokenOfCompany)
     aHistory.title = title
     aHistory.action = action
     aHistory.date = date
@@ -166,9 +178,13 @@ class BackgroundContract {
     this.person.set(tokenOfPerson, aPerson)
     return true
   }
-  getByToken (token) {
-    let aPerson = this.person.get(token)
+  getPersonByToken (token) {
+    const aPerson = this.person.get(token)
     return aPerson
+  }
+  getCompanyByToken (token) {
+    const aCompany = this.company.get(token)
+    return aCompany
   }
 }
 module.exports = BackgroundContract

@@ -1,4 +1,4 @@
-const CONTRACT_ADDRESS = 'n1kSoGHDDuJTwFW91nf8FiMMbQt1qt8oDfE'
+const CONTRACT_ADDRESS = 'n1sggDsuZ9uthox6ygxMnMqgxNaECiY4mt2'
 
 class SmartContractApi {
   constructor (contractAdress) {
@@ -53,10 +53,24 @@ class BackgroundContractApi extends SmartContractApi {
       listener: cb
     })
   }
-  getByToken (token, cb) {
+  getPersonByToken (token, cb) {
     this._simulateCall({
       callArgs: `["${token}"]`,
-      callFunction: 'getByToken',
+      callFunction: 'getPersonByToken',
+      listener: cb
+    })
+  }
+  getCompanyByToken (token, cb) {
+    this._simulateCall({
+      callArgs: `["${token}"]`,
+      callFunction: 'getCompanyByToken',
+      listener: cb
+    })
+  }
+  verify (cb) {
+    this._simulateCall({
+      callArgs: `[]`,
+      callFunction: 'verify',
       listener: cb
     })
   }

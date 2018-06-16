@@ -110,12 +110,12 @@ App.propTypes = {
 }
 const mapStateToProps = state => {
   return {
-    menu: state.menus,
+    menu: state.menus
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleUserType: () => dispatch(MenuAction.getUserTypeAction(dispatch))
+    handleUserType: () => MenuAction.getUserType(dispatch)
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App)

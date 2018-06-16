@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import triLayout from './common/triLayout'
@@ -10,30 +10,50 @@ import * as companyAction from '../action/company'
 import 'antd/lib/input/style'
 import './UpdatePerson.css'
 import 'antd/lib/button/style'
-const InformationForm = (props) => {
-  const onChangeInfo = (e) => {
+class InformationForm extends Component {
+  constructor (props) {
+    super(props)
+    this.onChangeInfo = this.onChangeInfo.bind(this)
+    this.state = {
+    }
+  }
+  componentWillMount () {
+    this.props.handleInit(this.props.token)
+  }
+  shouldComponentUpdate (nextProps) {
+    if (nextProps.token !== this.props.token) {
+      this.props.handleInit(nextProps.token)
+      return false
+    }
+    return true
+  }
+  onChangeInfo (e) {
     const info = {}
     info[e.currentTarget.id] = e.currentTarget.value
-    props.handleChange(info)
+    this.props.handleChange(info)
   }
-  return (
-    <div className='informationForm'>
-      <p>钱包hash: {props.token}</p>
-      <InputSet text='公司名'>
-        <Input onChange={onChangeInfo} value={props.name} id='name' placeholder='请输入您公司的全称' />
-      </InputSet>
-      <InputSet text='地点'>
-        <Input onChange={onChangeInfo} value={props.location} id='location' placeholder='请输入您公司的注册地' />
-      </InputSet>
-    </div>
-  )
+  render () {
+    const props = this.props
+    return (
+      <div className='informationForm'>
+        <p>钱包hash: {props.token}</p>
+        <InputSet text='公司名'>
+          <Input onChange={this.onChangeInfo} value={props.name} id='name' placeholder='请输入您公司的全称' />
+        </InputSet>
+        <InputSet text='地点'>
+          <Input onChange={this.onChangeInfo} value={props.location} id='location' placeholder='请输入您公司的注册地' />
+        </InputSet>
+      </div>
+    )
+  }
 }
 
 InformationForm.propTypes = {
   token: PropTypes.string,
   name: PropTypes.string,
   location: PropTypes.string,
-  handleChange: PropTypes.func
+  handleChange: PropTypes.func,
+  handleInit: PropTypes.func
 }
 const mapStateToProps = state => {
   return {
@@ -44,7 +64,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleChange: info => dispatch(companyAction.changeCompanyInfoAction(info))
+    handleChange: info => dispatch(companyAction.changeCompanyInfoAction(info)),
+    handleInit: (token) => companyAction.getCompanyInfo(dispatch, token)
   }
 }
 const InformationFormContainer = connect(mapStateToProps, mapDispatchToProps)(InformationForm)

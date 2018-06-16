@@ -29,3 +29,19 @@ export const updateCompany = (state) => {
   console.log('wait company')
   //  api.addCompanyHistoryToPerson(token, tokenOfCompany, addingTitle, addingAction, addingDate, 0)
 }
+
+export const getPersonInfo = (dispatch, token) => {
+  api.getPersonByToken(token, (personInfo) => {
+    if (personInfo.result === 'null') {
+      return null
+    }
+    personInfo = JSON.parse(personInfo.result)
+    let info = {
+      name: personInfo.name,
+      id: personInfo.id,
+      ava: personInfo.ava,
+      companyInfo: personInfo.companyInfo
+    }
+    dispatch(changePersonInfoAction(info))
+  })
+}

@@ -1,6 +1,7 @@
 /** Search */
 export const CHANGE_SEARCH_TEXT = 'CHANGE_SEARCH_TEXT'
 export const SUBMIT_SEARCH = 'SUBMIT_SEARCH'
+export const CHANGE_SEARCH_RESULT = 'CHANGE_SEARCH_RESULT'
 
 /** person */
 export const CHANGE_PERSON_INFO = 'CHANGE_PERSON_INFO'

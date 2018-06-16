@@ -51,7 +51,7 @@ const InformationFormContainer = connect(mapStateToProps, mapDispatchToProps)(In
 const PreTableContainer = (props) => {
   return (
     <div className='pretable-contianer'>
-      <PreTable />
+      <PreTable isSearch={false} />
     </div>
   )
 }

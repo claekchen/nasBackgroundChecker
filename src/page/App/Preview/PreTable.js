@@ -33,18 +33,22 @@ class PreTable extends Component {
     }
   }
   render () {
-    const {companyInfo} = this.props
+    const {companyInfo, searchCompanyInfo, isSearch} = this.props
+    const info = isSearch ? searchCompanyInfo : companyInfo
     return (
-      <Table columns={columns} dataSource={companyInfo} />
+      <Table columns={columns} dataSource={info} />
     )
   }
 }
 PreTable.propTypes = {
-  companyInfo: PropTypes.array
+  companyInfo: PropTypes.array,
+  isSearch: PropTypes.bool,
+  searchCompanyInfo: PropTypes.array
 }
 const mapStateToPropsInfo = state => {
   return {
-    companyInfo: state.person.companyInfo
+    companyInfo: state.person.companyInfo,
+    searchCompanyInfo: state.search.companyInfo
   }
 }
 export default connect(mapStateToPropsInfo)(PreTable)
