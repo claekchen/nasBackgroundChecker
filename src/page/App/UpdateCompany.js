@@ -107,7 +107,7 @@ const mapStateToPropsButton = (state) => {
 }
 const mapDispatchToPropsButton = (dispatch) => {
   return {
-    handleClick: state => companyAction.updateCompanyInfoAction(state)
+    handleClick: state => companyAction.updateCompanyInfoAction(dispatch, state)
   }
 }
 const ConfirmButtonContainer = connect(mapStateToPropsButton, mapDispatchToPropsButton)(ConfirmButton)

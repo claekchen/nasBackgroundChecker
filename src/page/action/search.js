@@ -1,9 +1,7 @@
 import * as types from '../constant/app-constant'
 import BackgroundContractApi from '../../ContractApi'
+import * as menuAction from './menus'
 let api = new BackgroundContractApi()
-const callbackFromEOS = (state) => {
-  console.log(state)
-}
 export const changeSearchTextAction = (text) => {
   return {
     type: types.CHANGE_SEARCH_TEXT,
@@ -17,6 +15,7 @@ export const changePersonInfoAction = (info) => {
   }
 }
 export const submitSearch = (dispatch, token) => {
+  menuAction.toggleLoading(dispatch, true)
   api.getPersonByToken(token, (personInfo) => {
     if (personInfo.result === 'null') {
       return null
@@ -29,7 +28,7 @@ export const submitSearch = (dispatch, token) => {
       ava: personInfo.ava,
       companyInfo: personInfo.companyInfo
     }
-    info.companyInfo = []
     dispatch(changePersonInfoAction(info))
+    menuAction.toggleLoading(dispatch, false)
   })
 }

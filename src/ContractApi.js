@@ -1,4 +1,4 @@
-const CONTRACT_ADDRESS = 'n1sggDsuZ9uthox6ygxMnMqgxNaECiY4mt2'
+const CONTRACT_ADDRESS = 'n1ssz68oLXM3zcgD6WuBhKxESW3v67Qr3dU'
 
 class SmartContractApi {
   constructor (contractAdress) {
@@ -46,9 +46,9 @@ class BackgroundContractApi extends SmartContractApi {
       listener: cb
     })
   }
-  approveOrRejectHistory (tokenOfCompany, tokenOfPerson, result, cb) {
+  approveOrRejectHistory (tokenOfCompany, tokenOfPerson, count, title, action, date, result, cb) {
     this._call({
-      callArgs: `["${tokenOfCompany}", "${tokenOfPerson}", ${result}]`,
+      callArgs: `["${tokenOfCompany}", "${tokenOfPerson}", ${count}, "${title}", "${action}", "${date}", ${result}]`,
       callFunction: 'approveOrRejectHistory',
       listener: cb
     })
@@ -71,6 +71,13 @@ class BackgroundContractApi extends SmartContractApi {
     this._simulateCall({
       callArgs: `[]`,
       callFunction: 'verify',
+      listener: cb
+    })
+  }
+  getCompanyList (cb) {
+    this._simulateCall({
+      callArgs: `[]`,
+      callFunction: 'getCompanyList',
       listener: cb
     })
   }

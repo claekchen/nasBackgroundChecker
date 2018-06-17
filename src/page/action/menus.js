@@ -33,10 +33,10 @@ export const getUserType = (dispatch) => {
     api.verify((state) => {
         user = JSON.parse(state.result)
         console.log(user)
-        // const userType = user.type
-        // const userToken = user.token
-        const userType = 'company'
-        const userToken = '123123'
+        const userType = user.type
+        const userToken = user.token
+        // const userType = 'company'
+        // const userToken = '1'
         if (userType === 'person') {
             dispatch(toggleMenuAction('disableAudit', true))
             dispatch(toggleMenuAction('disableUpdateCompany', true))
@@ -53,4 +53,8 @@ export const getUserType = (dispatch) => {
         }
         dispatch(getUserTypeAction(userType, userToken))
     })
+}
+
+export const toggleLoading = (dispatch, isLoading) => {
+    dispatch(toggleMenuAction('loading', isLoading))
 }

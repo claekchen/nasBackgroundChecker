@@ -4,6 +4,7 @@ initialSelected = initialSelected[initialSelected.length-1]
 const initialState = {
  userType: '',
  userToken: '',
+ loading: false,
  selected: initialSelected,
  disableSearch: false,
  disableUpdatePerson: false,

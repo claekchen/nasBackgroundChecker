@@ -29,7 +29,8 @@ const AddCompany = (props) => {
   }
   const onChangeCompany = (value) => {
     const info = {}
-    info.addingCompany = value
+    info.addingCompany = value.name
+    info.addingToken = value.token
     props.handleChange(info)
   }
   const onChangeAction = (value) => {
@@ -44,7 +45,7 @@ const AddCompany = (props) => {
   }
   const renderCompany = (data) => {
     let res = []
-    data.map(item => res.push(<Option key={item} value={item}>{item}</Option>))
+    Object.keys(data).map(index => res.push(<Option key={data[index]} value={{token: index, name: data[index]}}>{data[index]}</Option>))
     return res
   }
   const onUpdate = () => {
@@ -70,9 +71,9 @@ const AddCompany = (props) => {
         <Input onChange={onChangeInfo} id='addingTitle' value={props.addingTitle} placeholder='请输入您的职位' />
       </InputSet>
       <InputSet text='行为'>
-        <Select onChange={onChangeAction} defaultValue='in' style={{ width: '100%' }}>
-          <Option value='in'>入职</Option>
-          <Option value='out'>离职</Option>
+        <Select onChange={onChangeAction} style={{ width: '100%' }}>
+          <Option value='入职'>入职</Option>
+          <Option value='离职'>离职</Option>
         </Select>
       </InputSet>
       <InputSet text='日期'>
@@ -87,7 +88,7 @@ AddCompany.propTypes = {
   onOK: PropTypes.func,
   handleSwitchCompanyInfo: PropTypes.func,
   handleUpdate: PropTypes.func,
-  companyList: PropTypes.array,
+  companyList: PropTypes.object,
   addingCompany: PropTypes.string,
   addingTitle: PropTypes.string,
   addingAction: PropTypes.string,
@@ -110,7 +111,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleSwitchCompanyInfo: showCompanyInfo => dispatch(personAction.switchCompanyInfoAction(showCompanyInfo)),
     handleChange: info => dispatch(personAction.changePersonInfoAction(info)),
-    handleUpdate: (state) => personAction.updateCompany(state)
+    handleUpdate: (state) => personAction.updateCompany(dispatch, state)
   }
 }
 

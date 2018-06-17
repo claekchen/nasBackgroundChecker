@@ -9,12 +9,15 @@ import './Audit.css'
 import 'antd/lib/table/style'
 import 'antd/lib/button/style'
 import 'antd/lib/divider/style'
+import moment from 'moment'
+const monthFormat = 'YYYY/MM'
 const AuditButtonGroup = (props) => {
+  const {token, count, title, action, date} = props.info
   const onApprove = () => {
-    props.handleApprove(props.state, props.token)
+    props.handleApprove(props.state, count, title, action, date, token)
   }
   const onReject = () => {
-    props.handleReject(props.state)
+    props.handleApprove(props.state, count, title, action, date, token)
   }
   return (
     <div>
@@ -27,7 +30,8 @@ const AuditButtonGroup = (props) => {
 AuditButtonGroup.propTypes = {
   handleApprove: PropTypes.func,
   handleReject: PropTypes.func,
-  state: PropTypes.object
+  state: PropTypes.object,
+  token: PropTypes.string
 }
 const mapStateToPropsButton = state => {
   return {
@@ -36,8 +40,8 @@ const mapStateToPropsButton = state => {
 }
 const mapDispatchToPropsButton = (dispatch) => {
   return {
-    handleApprove: (state, token) => companyAction.approvePersonAction(state, token),
-    handleReject: (state, token) => companyAction.rejectPersonAction(state, token)
+    handleApprove: (state, count, title, action, date, token) => companyAction.approvePersonAction(dispatch, state, count, title, action, date, token),
+    handleReject: (state, count, title, action, date, token) => companyAction.rejectPersonAction(dispatch, state, count, title, action, date, token)
   }
 }
 const AuditButtonContainer = connect(mapStateToPropsButton, mapDispatchToPropsButton)(AuditButtonGroup)
@@ -65,7 +69,7 @@ const columns = [{
 }, {
   title: '审核',
   key: 'audit',
-  render: (key) => {return <AuditButtonContainer token={key.token} />}
+  render: (key) => { return <AuditButtonContainer info={key} /> }
 }]
 class Audit extends Component {
   constructor (props) {
@@ -73,23 +77,46 @@ class Audit extends Component {
     this.state = {
     }
   }
+  componentWillMount () {
+    this.props.handleInit(this.props.token)
+  }
+  shouldComponentUpdate (nextProps) {
+    if (nextProps.token !== this.props.token) {
+      this.props.handleInit(nextProps.token)
+      return false
+    }
+    return true
+  }
   render () {
     const {personInfo} = this.props
+    let data = []
+    Object.keys(personInfo).map(index => {
+      personInfo[index].date = moment(Number(personInfo[index].date)).format(monthFormat)
+      data.push(personInfo[index])
+    })
     return (
       <div className='Audit'>
-        <Table columns={columns} dataSource={personInfo} />
+        <Table columns={columns} dataSource={data} />
       </div>
     )
   }
 }
 
 Audit.propTypes = {
-  personInfo: PropTypes.array
+  personInfo: PropTypes.array,
+  handleInit: PropTypes.func,
+  token: PropTypes.string
 }
 const mapStateToProps = state => {
   return {
-    personInfo: state.company.personInfo
+    personInfo: state.company.personInfo,
+    token: state.company.token
   }
 }
 
-export default connect(mapStateToProps)(Audit)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleInit: (token) => companyAction.getCompanyInfo(dispatch, token)
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Audit)

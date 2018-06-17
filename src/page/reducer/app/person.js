@@ -7,21 +7,13 @@ const initialState = {
   id: '',
   ava: '',
   showCompanyInfo: false,
-  companyList: ['中国平安'],
+  companyList: {},
   addingCompany: '',
+  addingToken: '',
   addingTitle: '',
-  addingAction: '',
+  addingAction: '入职',
   addingDate: moment('2015/01', monthFormat),
-  companyInfo: [
-    {
-      name: '中国平安',
-      title: '销售经理',
-      action: '入职',
-      date: moment('2015/01', monthFormat).format(monthFormat),
-      isVeri: '已认证',
-      key: '1'
-    }
-  ]
+  companyInfo: {}
 }
 
 const person = (state = initialState, action) => {

@@ -23,7 +23,8 @@ const InformationForm = (props) => {
 InformationForm.propTypes = {
   token: PropTypes.string,
   name: PropTypes.string,
-  id: PropTypes.string
+  id: PropTypes.string,
+  onBack: PropTypes.func
 }
 const mapStateToPropsInfo = state => {
   return {
@@ -41,7 +42,7 @@ const InformationFormContainer = connect(mapStateToPropsInfo, mapDispatchToProps
 const PreTableContainer = (props) => {
   return (
     <div className='pretable-contianer'>
-      <PreTable isSearch={true} />
+      <PreTable isSearch />
     </div>
   )
 }

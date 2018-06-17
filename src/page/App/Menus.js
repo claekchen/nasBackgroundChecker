@@ -32,6 +32,10 @@ class Menus extends Component {
             <Icon type='search' />
             <span>快速查询</span>
           </Item>
+          <Item onClick={this.onClickMenu} key='description'>
+            <Icon type='question' />
+            <span>使用说明</span>
+          </Item>
           <SubMenu disabled = {(menu.userType === 'company')} key='personal' title={<span><Icon type='user' /><span>个人用户</span></span>}>
             <Item disabled = {menu.disableUpdatePerson} key='updatePerson'>注册/更新信息</Item>
             <Item disabled = {menu.disablePreview} key='preview'>信息预览</Item>

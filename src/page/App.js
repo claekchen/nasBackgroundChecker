@@ -2,18 +2,19 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Layout from 'antd/lib/layout'
+import Spin from 'antd/lib/spin'
 import Audit from './App/Audit'
 import Preview from './App/Preview'
 import Search from './App/Search'
 import UpdatePerson from './App/UpdatePerson'
 import UpdateCompany from './App/UpdateCompany'
+import Description from './App/Description'
 import NotFound from './App/NotFound'
 import Menus from './App/Menus'
 import * as MenuAction from './action/menus'
 import { Router, Redirect } from '@reach/router'
-import 'antd/lib/menu/style'
 import 'antd/lib/layout/style'
-import 'antd/lib/icon/style'
+import 'antd/lib/spin/style'
 import './App.css'
 const {Header, Sider, Footer, Content} = Layout
 class App extends Component {
@@ -80,23 +81,31 @@ class App extends Component {
                 </header>
               </Header>
               <Content className='content-container'>
+                {this.props.menu.loading
+                ? <div className='loading'>
+                  <Spin size='large' />
+                </div> : null
+                }
                 <Router>
                   {this.renderRedirect()}
                   <NotFound default />
                   <Audit path='audit' />
                   <Preview path='preview' />
                   <Redirect
-                    from="/"
-                    to="search"
-                    noThrow 
+                    from='/'
+                    to='search'
+                    noThrow
                   />
                   <Search path='/search' />
                   <UpdateCompany path='updateCompany' />
                   <UpdatePerson path='updatePerson' />
+                  <Description path='description' />
                 </Router>
               </Content>
               <Footer className='footer-container'>
-                created by Claek in 2018
+                <p>created by Claek in 2018</p>
+                <p>My Email: claek.chen@icloud.com</p>
+                <p>注：请先安装Chrome Nebulas-WebExtensionWallet钱包插件</p>
               </Footer>
             </Layout>
           </Layout>

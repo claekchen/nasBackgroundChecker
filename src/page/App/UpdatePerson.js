@@ -105,7 +105,7 @@ const mapStateToPropsButton = (state) => {
 }
 const mapDispatchToPropsButton = (dispatch) => {
   return {
-    handleClick: person => personAction.updatePersonInfoAction(person)
+    handleClick: person => personAction.updatePersonInfoAction(dispatch, person)
   }
 }
 const ConfirmButtonContainer = connect(mapStateToPropsButton, mapDispatchToPropsButton)(ConfirmButton)

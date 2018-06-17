@@ -1,9 +1,8 @@
 import * as types from '../constant/app-constant'
 import BackgroundContractApi from '../../ContractApi'
+import * as menuAction from './menus'
+import {cbPush} from '../../common'
 let api = new BackgroundContractApi()
-const callbackFromEOS = (state) => {
-  console.log(state)
-}
 export const changeCompanyInfoAction = (info) => {
   return {
     type: types.CHANGE_COMPANY_INFO,
@@ -11,24 +10,32 @@ export const changeCompanyInfoAction = (info) => {
   }
 }
 
-export const updateCompanyInfoAction = (state) => {
+export const updateCompanyInfoAction = (dispatch, state) => {
+  menuAction.toggleLoading(dispatch, true)
+  const callBack = cbPush(dispatch)
   const {token, name, location, ava} = state
-  api.updateCompany(token, name, location, ava, callbackFromEOS)
+  api.updateCompany(token, name, location, ava, callBack)
 }
 
-export const approvePersonAction = (state, tokenOfPerson) => {
-  const {token} = state
-  api.approveOrRejectHistory(token, tokenOfPerson, 1, callbackFromEOS)
+export const approvePersonAction = (dispatch, state, count, title, action, date, tokenOfPerson) => {
+  menuAction.toggleLoading(dispatch, true)
+  const callBack = cbPush(dispatch)
+  const {token} = state.company
+  api.approveOrRejectHistory(token, tokenOfPerson, count, title, action, date, 1, callBack)
 }
 
-export const rejectPersonAction = (state, tokenOfPerson) => {
-  const {token} = state
-  api.approveOrRejectHistory(token, tokenOfPerson, -1, callbackFromEOS)
+export const rejectPersonAction = (dispatch, state, count, title, action, date, tokenOfPerson) => {
+  menuAction.toggleLoading(dispatch, true)
+  const callBack = cbPush(dispatch)
+  const {token} = state.company
+  api.approveOrRejectHistory(token, tokenOfPerson, count, title, action, date, -1, callBack)
 }
 
 export const getCompanyInfo = (dispatch, token) => {
+  menuAction.toggleLoading(dispatch, true)
   api.getCompanyByToken(token, (companyInfo) => {
     if (companyInfo.result === 'null') {
+      menuAction.toggleLoading(dispatch, false)
       return null
     }
     companyInfo = JSON.parse(companyInfo.result)
@@ -38,8 +45,8 @@ export const getCompanyInfo = (dispatch, token) => {
       ava: companyInfo.ava,
       personInfo: companyInfo.personInfo
     }
-    info.personInfo = []
     console.log(info.personInfo)
     dispatch(changeCompanyInfoAction(info))
+    menuAction.toggleLoading(dispatch, false)
   })
 }
