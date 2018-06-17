@@ -12,10 +12,12 @@ import Description from './App/Description'
 import NotFound from './App/NotFound'
 import Menus from './App/Menus'
 import * as MenuAction from './action/menus'
-import { Router, Redirect } from '@reach/router'
+import {Router, Redirect, createMemorySource, createHistory, LocationProvider} from '@reach/router'
 import 'antd/lib/layout/style'
 import 'antd/lib/spin/style'
 import './App.css'
+let source = createMemorySource('search')
+let history = createHistory(source)
 const {Header, Sider, Footer, Content} = Layout
 class App extends Component {
   constructor (props) {
@@ -72,7 +74,11 @@ class App extends Component {
               collapsedWidth='0'
               onCollapse={(collapsed, type) => { console.log(collapsed, type) }}
             >
-              <Menus />
+              <LocationProvider history={history}>
+                {
+                  (context) => <Menus navigate={context.navigate}/>
+                }
+              </LocationProvider>
             </Sider>
             <Layout>
               <Header className='header-container'>
@@ -86,6 +92,7 @@ class App extends Component {
                   <Spin size='large' />
                 </div> : null
                 }
+                <LocationProvider history={history}>
                 <Router>
                   {this.renderRedirect()}
                   <NotFound default />
@@ -101,6 +108,7 @@ class App extends Component {
                   <UpdatePerson path='updatePerson' />
                   <Description path='description' />
                 </Router>
+                </LocationProvider>
               </Content>
               <Footer className='footer-container'>
                 <p>created by Claek in 2018</p>

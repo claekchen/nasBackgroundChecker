@@ -1,11 +1,9 @@
 import * as types from '../../constant/app-constant'
-let initialSelected = window.location.href.split('/')
-initialSelected = initialSelected[initialSelected.length-1]
 const initialState = {
  userType: '',
  userToken: '',
  loading: false,
- selected: initialSelected,
+ selected: 'search',
  disableSearch: false,
  disableUpdatePerson: false,
  disableUpdateCompany: false,

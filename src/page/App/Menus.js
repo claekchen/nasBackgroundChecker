@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Menu from 'antd/lib/menu'
 import Icon from 'antd/lib/icon'
-import { navigate } from '@reach/router'
 import * as MenuAction from '../action/menus'
 import * as searchAction from '../action/search'
 import 'antd/lib/menu/style'
@@ -17,7 +16,7 @@ class Menus extends Component {
       }
     }
     onClickMenu (item) {
-      const {handleChange, handleSearch} = this.props
+      const {handleChange, handleSearch, navigate} = this.props
       navigate(item.key)
       handleChange(item.key)
       if (item.key === 'search') {
@@ -26,6 +25,7 @@ class Menus extends Component {
     }
     render () {
       const {menu} = this.props
+      console.log(this.props)
       return (
         <Menu onClick={this.onClickMenu} theme='dark' mode='inline' defaultSelectedKeys={[menu.selected]}>
           <Item disabled = {menu.disableSearch} key='search'>
@@ -51,7 +51,8 @@ class Menus extends Component {
   Menus.propTypes = {
     menu: PropTypes.object,
     handleChange: PropTypes.func,
-    handleSearch: PropTypes.func
+    handleSearch: PropTypes.func,
+    navigate: PropTypes.func
   }
   const mapStateToProps = state => {
     return {
