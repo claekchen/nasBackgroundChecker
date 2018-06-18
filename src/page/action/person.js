@@ -13,7 +13,8 @@ export const changePersonInfoAction = (info) => {
 export const updatePersonInfoAction = (dispatch, state) => {
   const {token, name, id, ava} = state
   menuAction.toggleLoading(dispatch, true)
-  const callBack = cbPush(dispatch)
+  const refresh = () => getPersonInfo(dispatch, token)
+  const callBack = cbPush(dispatch, refresh)
   api.updatePerson(token, name, id, ava, callBack)
 }
 
@@ -28,7 +29,8 @@ export const updateCompany = (dispatch, state) => {
   const {token, addingToken, addingTitle, addingAction, addingDate} = state.person
   dispatch(switchCompanyInfoAction(false))
   menuAction.toggleLoading(dispatch, true)
-  const callBack = cbPush(dispatch)
+  const refresh = () => getPersonInfo(dispatch, token)
+  const callBack = cbPush(dispatch, refresh)
   api.addCompanyHistoryToPerson(token, addingToken, addingTitle, addingAction, addingDate, 0, callBack)
 }
 

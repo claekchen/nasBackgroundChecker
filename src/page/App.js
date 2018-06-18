@@ -111,7 +111,6 @@ class App extends Component {
                 </LocationProvider>
               </Content>
               <Footer className='footer-container'>
-                <p>created by Claek in 2018</p>
                 <p>My Email: claek.chen@icloud.com</p>
                 <p>注：请先安装Chrome Nebulas-WebExtensionWallet钱包插件</p>
               </Footer>

@@ -30,8 +30,12 @@ export const getUserType = (dispatch) => {
         type: '',
         token: ''
     }
+    toggleLoading(dispatch, true)
     api.verify((state) => {
-        user = JSON.parse(state.result)
+        try {user = JSON.parse(state.result)}
+        catch (err) {
+            window.alert(err)
+        }
         console.log(user)
         const userType = user.type
         const userToken = user.token
@@ -52,6 +56,7 @@ export const getUserType = (dispatch) => {
             dispatch(companyAction.changeCompanyInfoAction({token: userToken}))
         }
         dispatch(getUserTypeAction(userType, userToken))
+        toggleLoading(dispatch, false)
     })
 }
 

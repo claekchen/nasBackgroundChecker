@@ -12,21 +12,24 @@ export const changeCompanyInfoAction = (info) => {
 
 export const updateCompanyInfoAction = (dispatch, state) => {
   menuAction.toggleLoading(dispatch, true)
-  const callBack = cbPush(dispatch)
+  const refresh = () => getCompanyInfo(dispatch, state.token)
+  const callBack = cbPush(dispatch, refresh)
   const {token, name, location, ava} = state
   api.updateCompany(token, name, location, ava, callBack)
 }
 
 export const approvePersonAction = (dispatch, state, count, title, action, date, tokenOfPerson) => {
   menuAction.toggleLoading(dispatch, true)
-  const callBack = cbPush(dispatch)
+  const refresh = () => getCompanyInfo(dispatch, state.company.token)
+  const callBack = cbPush(dispatch, refresh)
   const {token} = state.company
   api.approveOrRejectHistory(token, tokenOfPerson, count, title, action, date, 1, callBack)
 }
 
 export const rejectPersonAction = (dispatch, state, count, title, action, date, tokenOfPerson) => {
   menuAction.toggleLoading(dispatch, true)
-  const callBack = cbPush(dispatch)
+  const refresh = () => getCompanyInfo(dispatch, state.company.token)
+  const callBack = cbPush(dispatch, refresh)
   const {token} = state.company
   api.approveOrRejectHistory(token, tokenOfPerson, count, title, action, date, -1, callBack)
 }

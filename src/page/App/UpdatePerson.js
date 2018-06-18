@@ -52,13 +52,15 @@ InformationForm.propTypes = {
   name: PropTypes.string,
   id: PropTypes.string,
   handleChange: PropTypes.func,
-  handleInit: PropTypes.func
+  handleInit: PropTypes.func,
+  loading: PropTypes.bool
 }
 const mapStateToPropsInfo = state => {
   return {
     token: state.person.token,
     name: state.person.name,
-    id: state.person.id
+    id: state.person.id,
+    loading: state.menus.loading
   }
 }
 const mapDispatchToPropsInfo = (dispatch) => {

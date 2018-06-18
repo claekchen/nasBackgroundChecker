@@ -18,6 +18,8 @@ export const submitSearch = (dispatch, token) => {
   menuAction.toggleLoading(dispatch, true)
   api.getPersonByToken(token, (personInfo) => {
     if (personInfo.result === 'null') {
+      window.alert('该地址下暂无信息')
+      menuAction.toggleLoading(dispatch, false)
       return null
     }
     personInfo = JSON.parse(personInfo.result)
