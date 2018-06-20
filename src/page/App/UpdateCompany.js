@@ -43,6 +43,7 @@ class InformationForm extends Component {
         <InputSet text='地点'>
           <Input onChange={this.onChangeInfo} value={props.location} id='location' placeholder='请输入您公司的注册地' />
         </InputSet>
+        <p>其他操作请在审核页面进行。</p>
       </div>
     )
   }

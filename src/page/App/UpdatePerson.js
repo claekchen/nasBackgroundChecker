@@ -42,6 +42,7 @@ class InformationForm extends Component {
         <InputSet text='身份证'>
           <Input onChange={this.onChangeInfo} value={this.props.id} id='id' placeholder='请输入您的身份证号码' />
         </InputSet>
+        <p>工作经历请在详细信息页面添加。</p>
       </div>
     )
   }
