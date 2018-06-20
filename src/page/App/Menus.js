@@ -38,7 +38,7 @@ class Menus extends Component {
           </Item>
           <SubMenu disabled = {(menu.userType === 'company')} key='personal' title={<span><Icon type='user' /><span>个人用户</span></span>}>
             <Item disabled = {menu.disableUpdatePerson} key='updatePerson'>注册/更新信息</Item>
-            <Item disabled = {menu.disablePreview} key='preview'>信息预览</Item>
+            <Item disabled = {menu.disablePreview} key='preview'>详细信息</Item>
           </SubMenu>
           <SubMenu disabled = {(menu.userType === 'person')} key='company' title={<span><Icon type='mail' /><span>企业用户</span></span>}>
             <Item disabled = {menu.disableUpdateCompany} key='updateCompany'>注册/更新信息</Item>
