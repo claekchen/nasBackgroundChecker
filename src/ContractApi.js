@@ -1,5 +1,5 @@
 const CONTRACT_ADDRESS = 'n1ssz68oLXM3zcgD6WuBhKxESW3v67Qr3dU'
-
+// const CONTRACT_ADDRESS = 'n1fQajCYxB9MZSirBKfAZAfnp6ru2yi7KRP'
 class SmartContractApi {
   constructor (contractAdress) {
     var NebPay = require('./dist/nebpay')

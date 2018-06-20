@@ -44,14 +44,20 @@ export const getUserType = (dispatch) => {
         if (userType === 'person') {
             dispatch(toggleMenuAction('disableAudit', true))
             dispatch(toggleMenuAction('disableUpdateCompany', true))
+            dispatch(toggleMenuAction('disableUpdatePerson', false))
+            dispatch(toggleMenuAction('disablePreview', false))
             dispatch(personAction.changePersonInfoAction({token: userToken}))
         } else if (userType === 'company') {
             dispatch(toggleMenuAction('disableUpdatePerson', true))
             dispatch(toggleMenuAction('disablePreview', true))
+            dispatch(toggleMenuAction('disableAudit', false))
+            dispatch(toggleMenuAction('disableUpdateCompany', false))
             dispatch(companyAction.changeCompanyInfoAction({token: userToken}))
         } else if (userType === 'none') {
             dispatch(toggleMenuAction('disablePreview', true))
             dispatch(toggleMenuAction('disableAudit', true))
+            dispatch(toggleMenuAction('disableUpdatePerson', false))
+            dispatch(toggleMenuAction('disableUpdateCompany', false))
             dispatch(personAction.changePersonInfoAction({token: userToken}))
             dispatch(companyAction.changeCompanyInfoAction({token: userToken}))
         }

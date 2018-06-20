@@ -109,7 +109,7 @@ class BackgroundContract {
   }
   updatePerson (token, name, id, ava) {
     let aPerson = new Person()
-    token = Blockchain.transaction.from
+    // token = Blockchain.transaction.from
     aPerson.token = token
     aPerson.name = name
     aPerson.id = id
@@ -129,7 +129,7 @@ class BackgroundContract {
 
   updateCompany (token, name, location, ava) {
     let aCompany = new Person()
-    token = Blockchain.transaction.from
+    // token = Blockchain.transaction.from
     aCompany.token = token
     aCompany.name = name
     aCompany.location = location
@@ -154,7 +154,7 @@ class BackgroundContract {
     let aPerson = this.person.get(token)
     let aHistory = new CompanyHistory()
     const aMap = this.companyNameMap
-    token = Blockchain.transaction.from
+    // token = Blockchain.transaction.from
     aHistory.token = tokenOfCompany
     aHistory.name = aMap[tokenOfCompany]
     aHistory.title = title
@@ -184,7 +184,7 @@ class BackgroundContract {
   }
 
   approveOrRejectHistory (tokenOfCompany, tokenOfPerson, count, title, action, date, result) {
-    tokenOfCompany = Blockchain.transaction.from
+    // tokenOfCompany = Blockchain.transaction.from
     let aCompany = this.company.get(tokenOfCompany)
     let aPerson = this.person.get(tokenOfPerson)
     let aCompanyHistory = aPerson.companyInfo[tokenOfCompany][count]

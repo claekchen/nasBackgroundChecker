@@ -12,7 +12,10 @@ export const changeCompanyInfoAction = (info) => {
 
 export const updateCompanyInfoAction = (dispatch, state) => {
   menuAction.toggleLoading(dispatch, true)
-  const refresh = () => getCompanyInfo(dispatch, state.token)
+  const refresh = () => {
+    getCompanyInfo(dispatch, state.token)
+    menuAction.getUserType(dispatch)
+  }
   const callBack = cbPush(dispatch, refresh)
   const {token, name, location, ava} = state
   api.updateCompany(token, name, location, ava, callBack)

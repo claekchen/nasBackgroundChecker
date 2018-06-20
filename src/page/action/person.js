@@ -13,7 +13,10 @@ export const changePersonInfoAction = (info) => {
 export const updatePersonInfoAction = (dispatch, state) => {
   const {token, name, id, ava} = state
   menuAction.toggleLoading(dispatch, true)
-  const refresh = () => getPersonInfo(dispatch, token)
+  const refresh = () => {
+    getPersonInfo(dispatch, state.token)
+    menuAction.getUserType(dispatch)
+  }
   const callBack = cbPush(dispatch, refresh)
   api.updatePerson(token, name, id, ava, callBack)
 }
